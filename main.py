@@ -55,7 +55,10 @@ def main():
             label=Label(root, text="", font=("Courier 22 bold"))
             label.pack()
             for n in data[i][1]:
-                table_data.insert(parent='',index='end',text='',values=(i,data[i][0]["password"],data[i][1]["method"]))
+                if data[i][1]["method"] == 1:
+                    table_data.insert(parent='',index='end',text='',values=(i,data[i][0]["password"],"Update"))
+                else:
+                    table_data.insert(parent='',index='end',text='',values=(i,data[i][0]["password"],data[i][1]["method"]))
 
     def check_creds_name(name):
         try:
@@ -94,14 +97,16 @@ def main():
     add_password["borderwidth"] = "1px"
     add_password.place(x=40, y=350)
     Label(root, text="Method").place(x=40, y=380)
-    add_method = Entry(root)
-    # add_method.focus_set() 
-    add_method["borderwidth"] = "1px"
-    add_method.place(x=40, y=400)
+    add_method = IntVar()
+    R1 = Radiobutton(root, text="Updater", variable=add_method, value=1)
+    R1.place(x=40, y=400)
+    # add_method = Entry(root)
+    # # add_method.focus_set() 
+    # add_method["borderwidth"] = "1px"
+    # add_method.place(x=40, y=400)
 
     
     def add_entry():
-        print(data)
         global updated_count
         global entry_label
         if add_username.get() == '':
@@ -116,13 +121,11 @@ def main():
                 updated_label_count = "Updated!"
                 updated_count = updated_count + 1
             else:
-                updated_count = updated_count + 1
                 updated_label_count = "Updated! x{}".format(updated_count)
                 updated_count = updated_count + 1
             entry_data = {add_username.get().lower():[{"password":add_password.get()},{"method": add_method.get()}]}
             entry_label = Label(root, text=updated_label_count).place(x=40,y=260)
             data.update(entry_data)
-            print(data)
             credwrite = open("creds.json", "w+")
             # credfile.close()
             # credfile = open("creds.json","w+")
