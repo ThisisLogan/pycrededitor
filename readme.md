@@ -6,5 +6,9 @@ To Run:
 
     Requirements:
         Python3
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> fa4f844dd65ed5f6352c4afce3e2ce66eb235271
     python main.py
