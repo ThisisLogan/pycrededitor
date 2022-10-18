@@ -1,3 +1,6 @@
+# Made with love by Logan - https://github.com/ThisisLogan/pycrededitor
+
+
 from cgitb import text
 import json
 from tkinter import *
@@ -7,9 +10,8 @@ updated_count = 0
 
 
 def main():
-
+    # Create table
     root = Tk()
-    frm = ttk.Frame(root, padding=100)
     root.title("Creds editor")
     global credfile
     credfile = open("creds.json")
@@ -22,20 +24,19 @@ def main():
     root.resizable(width=False, height=False)
     global data
     data = json.load(credfile)
-    colm = 0
-    game_frame = Frame(root)
-    game_frame.pack()
+    creds_frame = Frame(root)
+    creds_frame.pack()
 
-    table_data = ttk.Treeview(game_frame)
-    game_scroll = Scrollbar(game_frame)
-    game_scroll.pack(side=RIGHT, fill=Y)
+    table_data = ttk.Treeview(creds_frame)
+    creds_scroll = Scrollbar(creds_frame)
+    creds_scroll.pack(side=RIGHT, fill=Y)
 
-    game_scroll = Scrollbar(game_frame,orient='horizontal')
-    game_scroll.pack(side= BOTTOM,fill=X)
+    creds_scroll = Scrollbar(creds_frame,orient='horizontal')
+    creds_scroll.pack(side= BOTTOM,fill=X)
 
-    table_data = ttk.Treeview(game_frame,yscrollcommand=game_scroll.set, xscrollcommand =game_scroll.set)
-    game_scroll.config(command=table_data.yview)
-    game_scroll.config(command=table_data.xview)
+    table_data = ttk.Treeview(creds_frame,yscrollcommand=creds_scroll.set, xscrollcommand =creds_scroll.set)
+    creds_scroll.config(command=table_data.yview)
+    creds_scroll.config(command=table_data.xview)
 
     table_data.pack()
 
@@ -75,10 +76,7 @@ def main():
         if check_creds_name(string) == False:
             search_label["text=Name does not exist"]
         else:
-            # search = Entry(root, width=40, text=("Password: ",check_creds_name(string))).place(x=200,y=300)
             search_label.configure(text=("Password: ",check_creds_name(string)))
-
-    # search.focus_set()
 
 
     global add_username
@@ -93,17 +91,12 @@ def main():
     Label(root, text="Password").place(x=40, y=330)
     add_password = Entry(root)
     
-    # add_password.focus_set() 
     add_password["borderwidth"] = "1px"
     add_password.place(x=40, y=350)
     Label(root, text="Method").place(x=40, y=380)
     add_method = IntVar()
     R1 = Radiobutton(root, text="Updater", variable=add_method, value=1)
     R1.place(x=40, y=400)
-    # add_method = Entry(root)
-    # # add_method.focus_set() 
-    # add_method["borderwidth"] = "1px"
-    # add_method.place(x=40, y=400)
 
     
     def add_entry():
@@ -113,10 +106,6 @@ def main():
             print("empty")
             return
         else:
-            # uname = add_username.get()
-            # password = add_password.get()
-            # method = add_method.get()
-            # print(uname, password, method)
             if updated_count == 0:
                 updated_label_count = "Updated!"
                 updated_count = updated_count + 1
@@ -127,14 +116,10 @@ def main():
             entry_label = Label(root, text=updated_label_count).place(x=40,y=260)
             data.update(entry_data)
             credwrite = open("creds.json", "w+")
-            # credfile.close()
-            # credfile = open("creds.json","w+")
             credwrite.write(json.dumps(data))
             credwrite.close()
             credfile.seek(0)
             refresh_table(data)
-            # credfile.close()
-            # credfile = open("creds.json")
 
     global search_label
     search_entry = Entry(root, width=40, text="Search").place(x=200,y=300)
